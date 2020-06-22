@@ -8,7 +8,7 @@ import GlobalStyle from './styles/global';
 const App: React.FC = () => {
   return (
     <>
-      <BrowserRouter>
+      <BrowserRouter basename="GithubExplorer">
         <Routes />
       </BrowserRouter>
       <GlobalStyle />
