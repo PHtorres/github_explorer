@@ -38,18 +38,22 @@ const Repository: React.FC = () => {
     const [repository, setRepository] = useState<Repository | null>(null);
     const [issues, setIssues] = useState<Issue[]>([]);
 
-    async function getData(): Promise<void> {
 
-        const [repo, issues] = await Promise.all([
-            api.get<Repository>(`repos/${params.repository}`),
-            api.get<Issue[]>(`repos/${params.repository}/issues`)
-        ]);
 
-        setRepository(repo.data);
-        setIssues(issues.data);
-    }
+    useEffect(() => { 
+        
+        async function getData(): Promise<void> {
 
-    useEffect(() => { getData() }, [params.repository]);
+            const [repo, issues] = await Promise.all([
+                api.get<Repository>(`repos/${params.repository}`),
+                api.get<Issue[]>(`repos/${params.repository}/issues`)
+            ]);
+    
+            setRepository(repo.data);
+            setIssues(issues.data);
+        }
+
+        getData(); }, [params.repository]);
 
     return (
         <>
@@ -89,7 +93,7 @@ const Repository: React.FC = () => {
             {issues &&
                 <Issues>
                     {issues.map(issue => (
-                        <a key={issue.id} href={issue.html_url} target="_blank">
+                        <a key={issue.id} href={issue.html_url} target="_blank" rel="noopener noreferrer">
                             <div>
                                 <strong>{issue.title}</strong>
                                 <p>{issue.user.login}</p>
